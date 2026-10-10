@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="338" viewBox="0 0 960 338" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c8962e"/></marker></defs>
+<rect width="960" height="338" rx="14" fill="#ffffff"/>
+<text x="32" y="38" font-size="18" font-weight="700" fill="#1d2733">Does the melanoma classifier look at the lesion?</text>
+<text x="32" y="60" font-size="12.5" fill="#5b6775">HAM10000: lesion-level evaluation, masking tests and an audit of acquisition bias</text>
+<g transform="translate(32.0,86)">
+<rect width="198.5" height="228" rx="10" fill="#eef3f8" stroke="#c9d3dd"/>
+<text x="14" y="26" font-size="11" font-weight="700" fill="#2c5578" letter-spacing=".6">1 · DATA</text>
+<text x="14" y="54" font-size="12.5" font-weight="700" fill="#1d2733">HAM10000</text>
+<text x="14" y="70" font-size="11" fill="#5b6775">10,015 dermoscopic images</text>
+<text x="14" y="96" font-size="12.5" font-weight="700" fill="#1d2733">Lesion masks</text>
+<text x="14" y="112" font-size="11" fill="#5b6775">one per image</text>
+<text x="14" y="138" font-size="12.5" font-weight="700" fill="#1d2733">Metadata</text>
+<text x="14" y="154" font-size="11" fill="#5b6775">lesion id, diagnosis method,</text>
+<text x="14" y="169" font-size="11" fill="#5b6775">age, sex, body site</text>
+</g>
+<line x1="234.5" y1="200" x2="260.5" y2="200" stroke="#c8962e" stroke-width="2.2" marker-end="url(#a)"/>
+<g transform="translate(264.5,86)">
+<rect width="198.5" height="228" rx="10" fill="#eef3f8" stroke="#c9d3dd"/>
+<text x="14" y="26" font-size="11" font-weight="700" fill="#2c5578" letter-spacing=".6">2 · EVALUATION DESIGN</text>
+<text x="14" y="54" font-size="12.5" font-weight="700" fill="#1d2733">Lesion-level split</text>
+<text x="14" y="70" font-size="11" fill="#5b6775">no lesion in train and test</text>
+<text x="14" y="96" font-size="12.5" font-weight="700" fill="#1d2733">Image-level split</text>
+<text x="14" y="112" font-size="11" fill="#5b6775">leaky, for comparison</text>
+<text x="14" y="138" font-size="12.5" font-weight="700" fill="#1d2733">Fixed test set</text>
+<text x="14" y="154" font-size="11" fill="#5b6775">same for all models</text>
+</g>
+<line x1="467.0" y1="200" x2="493.0" y2="200" stroke="#c8962e" stroke-width="2.2" marker-end="url(#a)"/>
+<g transform="translate(497.0,86)">
+<rect width="198.5" height="228" rx="10" fill="#2c5578"/>
+<text x="14" y="26" font-size="11" font-weight="700" fill="#f0d79e" letter-spacing=".6">3 · MODELS</text>
+<text x="14" y="54" font-size="12.5" font-weight="700" fill="#ffffff">ResNet-50, DenseNet-121</text>
+<text x="14" y="70" font-size="11" fill="#d7e3ee">EfficientNet-B0 (ImageNet)</text>
+<text x="14" y="96" font-size="12.5" font-weight="700" fill="#ffffff">Class-weighted loss</text>
+<text x="14" y="112" font-size="11" fill="#d7e3ee">melanoma ≈ 11 %</text>
+<text x="14" y="138" font-size="12.5" font-weight="700" fill="#ffffff">Threshold fixed on validation</text>
+<text x="14" y="154" font-size="11" fill="#d7e3ee">then applied to test</text>
+</g>
+<line x1="699.5" y1="200" x2="725.5" y2="200" stroke="#c8962e" stroke-width="2.2" marker-end="url(#a)"/>
+<g transform="translate(729.5,86)">
+<rect width="198.5" height="228" rx="10" fill="#eef3f8" stroke="#c9d3dd"/>
+<text x="14" y="26" font-size="11" font-weight="700" fill="#2c5578" letter-spacing=".6">4 · SHORTCUT TESTS</text>
+<text x="14" y="54" font-size="12.5" font-weight="700" fill="#1d2733">Lesion-only / background-only</text>
+<text x="14" y="70" font-size="11" fill="#5b6775">train and test, fixed-area box</text>
+<text x="14" y="96" font-size="12.5" font-weight="700" fill="#1d2733">Grad-CAM on the lesion</text>
+<text x="14" y="112" font-size="11" fill="#5b6775">energy ratio, pointing game</text>
+<text x="14" y="138" font-size="12.5" font-weight="700" fill="#1d2733">Acquisition bias</text>
+<text x="14" y="154" font-size="11" fill="#5b6775">histopathology-only subset</text>
+<text x="14" y="180" font-size="12.5" font-weight="700" fill="#1d2733">Subgroups</text>
+<text x="14" y="196" font-size="11" fill="#5b6775">sex, age, body site</text>
+</g>
+</svg>
