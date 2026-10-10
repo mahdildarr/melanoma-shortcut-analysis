@@ -1,48 +1,43 @@
 # Does the Melanoma Classifier Look at the Lesion?
 
-Deep learning reports dermatologist-level accuracy for melanoma — but a model can also score well by learning what surrounds the lesion or how the image was taken. This project builds an evaluation on **HAM10000** designed to catch such shortcuts: lesion-level splits, lesion-only and background-only tests with a class-agnostic masking design, Grad-CAM measured against lesion masks, and an audit of the acquisition bias that links the diagnosis method to the diagnosis.
+Melanoma classification on HAM10000 with an evaluation designed to detect shortcut learning: is the model using the lesion, or the skin around it and the way the image was taken?
 
 <p align="center"><img src="docs/assets/pipeline.svg" width="100%" alt="Pipeline"></p>
 
-> **Status:** Work in progress — the pipeline is implemented and tested; results will be added once the HAM10000 experiments are completed.
-> This repository presents the project and its design. **The source code is kept in a private repository** and can be shared on request.
+## Motivation
 
-## Why this project
+CNNs for melanoma detection report dermatologist-level accuracy, but earlier work has shown that such models can react to surgical ink markings and can still classify above chance when most of the lesion is hidden. HAM10000 also has two properties that make results easy to overestimate: many lesions appear in more than one image, and benign lesions documented by follow-up were imaged differently from melanomas confirmed by histopathology.
 
-Melanoma is the deadliest common skin cancer, and detecting it early decides survival. For an AI tool to help, its accuracy must come from the lesion itself. Earlier studies found models that react to surgical ink markings or still classify above chance when most of the lesion is hidden — scores that would not survive a new clinic, camera or protocol. HAM10000 adds two pitfalls of its own: many lesions appear in several images, and benign lesions documented by follow-up are acquired differently from histopathology-confirmed melanomas.
+## Approach
 
-## What is inside
+- Splits: all images of a lesion stay in the same split. The common image-level split is also run, only to measure how much it inflates the results.
+- Shortcut tests: models are evaluated on lesion-only and background-only images, and one model is trained and tested without seeing the lesion. The lesion is removed with a fixed-area box and skin-coloured fill, so its size and outline do not leak.
+- Grad-CAM, measured against the lesion masks (share of the heat map on the lesion, pointing game).
+- Acquisition bias: diagnosis vs diagnosis method, evaluation on the histopathology-confirmed subset, and a probe that tests whether follow-up and histopathology nevi can be told apart from the image.
+- Metrics: AUROC and sensitivity at 90% specificity, with the decision threshold fixed on the validation set; subgroups by sex, age, body site and image source.
+- Models: ResNet-50, DenseNet-121 and EfficientNet-B0.
 
-| | |
-|---|---|
-| **Data** | HAM10000: 10,015 dermoscopic images, 7 diagnoses, lesion masks, diagnosis method, age, sex, body site |
-| **Evaluation design** | lesion-level split (no lesion in both training and test) vs the leaky image-level split · fixed test set |
-| **Shortcut tests** | lesion-only / background-only test images · a model trained without ever seeing the lesion · fixed-area masking so lesion size cannot leak |
-| **Explainability** | Grad-CAM energy on the lesion vs lesion area · pointing game |
-| **Acquisition bias** | diagnosis × diagnosis-method audit · histopathology-only evaluation · follow-up vs histopathology probe among nevi |
-| **Metrics** | AUROC · sensitivity at 90 % specificity · subgroups by sex, age and body site |
-| **Networks** | ResNet-50 · DenseNet-121 · EfficientNet-B0 (ImageNet-pretrained) |
+The full experiment design is in [docs/DESIGN.md](docs/DESIGN.md).
 
-## Design
+## Roadmap
 
-The full design — data, tasks, splits, masking logic, explainability, bias analyses, metrics and limitations — is in **[docs/DESIGN.md](docs/DESIGN.md)**.
+- [x] Data loading, lesion-level splits, masking and Grad-CAM analysis
+- [x] Training and evaluation pipeline, tested on synthetic data
+- [ ] Dataset audit (images per lesion, diagnosis method)
+- [ ] Lesion-level vs image-level split (three seeds)
+- [ ] Shortcut tests and Grad-CAM analysis
+- [ ] Acquisition probe and subgroup analysis
 
-## Results
+## Code
 
-Result tables will be published here when the experiments are completed.
+The implementation (data pipeline, masking, training and analysis scripts, tests and a Colab notebook) is kept in a private repository for now. I am happy to share it on request.
 
-| Setting | Test AUROC | Sens. @ 90 % spec. | Histopathology-only AUROC |
-|---|---|---|---|
-| Lesion-level split | _TBD_ | _TBD_ | _TBD_ |
-| Image-level split (leaky) | _TBD_ | _TBD_ | _TBD_ |
-| Trained on background only | _TBD_ | _TBD_ | _TBD_ |
+## Data
 
-## Tech stack
+HAM10000 and its lesion segmentations (CC BY-NC 4.0). The data is not redistributed here.
 
-Python · PyTorch · torchvision · SciPy · pandas · Matplotlib · Google Colab (T4 GPU)
+## References
 
-## Author
-
-**Şule Özdamar** — Computer Engineering, İstanbul Arel University · [github.com/mahdildarr](https://github.com/mahdildarr)
-
-Data: HAM10000 (Tschandl et al., 2018), lesion segmentations (Tschandl et al., 2020); CC BY-NC 4.0. The dataset is not redistributed here.
+- P. Tschandl, C. Rosendahl, H. Kittler. The HAM10000 dataset, a large collection of multi-source dermatoscopic images of common pigmented skin lesions. Scientific Data, 2018.
+- A. Bissoto, E. Valle, S. Avila. Debiasing Skin Lesion Datasets and Models? Not So Fast. CVPR Workshops, 2020.
+- J. K. Winkler et al. Association Between Surgical Skin Markings in Dermoscopic Images and Diagnostic Performance of a Deep Learning Convolutional Neural Network for Melanoma Recognition. JAMA Dermatology, 2019.
