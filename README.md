@@ -19,14 +19,20 @@ CNNs for melanoma detection report dermatologist-level accuracy, but earlier wor
 
 The full experiment design is in [docs/DESIGN.md](docs/DESIGN.md).
 
-## Roadmap
+## Progress
 
-- [x] Data loading, lesion-level splits, masking and Grad-CAM analysis
-- [x] Training and evaluation pipeline, tested on synthetic data
-- [ ] Dataset audit (images per lesion, diagnosis method)
-- [ ] Lesion-level vs image-level split (three seeds)
-- [ ] Shortcut tests and Grad-CAM analysis
-- [ ] Acquisition probe and subgroup analysis
+- [x] HAM10000 loading with lesion masks
+- [x] Lesion-level and image-level splits
+- [x] Lesion-only / background-only masking with a fixed-area box
+- [x] Grad-CAM measured against lesion masks
+- [x] Acquisition-bias audit and probe
+- [x] Subgroup metrics and sensitivity at 90% specificity
+- [x] Unit tests, end-to-end test and Colab notebook
+
+Next:
+
+- [ ] Lesion-level vs image-level experiments
+- [ ] Shortcut tests and Grad-CAM analysis on HAM10000
 
 ## Code
 
